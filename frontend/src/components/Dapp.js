@@ -19,6 +19,8 @@ import { TransactionErrorMessage } from "./TransactionErrorMessage";
 import { WaitingForTransactionMessage } from "./WaitingForTransactionMessage";
 import { NoTokensMessage } from "./NoTokensMessage";
 
+import Layout from "./layout/Layout";
+
 // This is the default id used by the Hardhat Network
 const HARDHAT_NETWORK_ID = '31337';
 
@@ -72,8 +74,8 @@ export class Dapp extends React.Component {
     // clicks a button. This callback just calls the _connectWallet method.
     if (!this.state.selectedAddress) {
       return (
-        <ConnectWallet 
-          connectWallet={() => this._connectWallet()} 
+        <ConnectWallet
+          connectWallet={() => this._connectWallet()}
           networkError={this.state.networkError}
           dismiss={() => this._dismissNetworkError()}
         />
@@ -86,8 +88,10 @@ export class Dapp extends React.Component {
       return <Loading />;
     }
 
+
     // If everything is loaded, we render the application.
     return (
+      // <Layout>
       <div className="container p-4">
         <div className="row">
           <div className="col-12">
@@ -190,7 +194,7 @@ export class Dapp extends React.Component {
       if (newAddress === undefined) {
         return this._resetState();
       }
-      
+
       this._initialize(newAddress);
     });
   }
