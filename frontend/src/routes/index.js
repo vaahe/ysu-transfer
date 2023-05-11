@@ -4,25 +4,27 @@ import { Transactions } from "../pages/Transactions";
 import { ErrorPage } from "../pages/ErrorPage";
 import { Dashboard } from "../pages/Dashboard";
 
-export const routes = [
-    {
-        path: "/",
-        element: <Dashboard />
-    },
-    {
-        path: "/wallet",
-        element: <Wallet />,
-    },
-    {
-        path: "/transactions",
-        element: <Transactions />
-    },
-    {
-        path: "/settings",
-        element: <Settings />
-    },
-    {
-        path: "*",
-        element: <ErrorPage />
-    }
-]
+export const getRoutes = (props) => {
+    return [
+        {
+            path: "/",
+            element: <Dashboard state={props.state} transferTokens={props.transferTokens} />,
+        },
+        {
+            path: "/wallet",
+            element: <Wallet />,
+        },
+        {
+            path: "/transactions",
+            element: <Transactions />
+        },
+        {
+            path: "/settings",
+            element: <Settings />
+        },
+        {
+            path: "*",
+            element: <ErrorPage />
+        }
+    ]
+}

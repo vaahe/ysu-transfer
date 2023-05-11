@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { Dapp } from "./components/Dapp";
+import { Dapp } from "./components/Dapp.js";
 import { BrowserRouter as Router } from "react-router-dom";
 
 // We import bootstrap here, but you can remove if you want

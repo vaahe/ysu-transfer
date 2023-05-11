@@ -1,9 +1,13 @@
 import React from "react";
 
 export function Transfer({ transferTokens, tokenSymbol }) {
+  const handleChange = (e) => {
+    console.log(typeof e.target.value);
+  }
+
   return (
-    <div>
-      <h4>Transfer</h4>
+    <div className="border">
+      <h1>Transfer</h1>
       <form
         onSubmit={(event) => {
           // This function just calls the transferTokens callback with the
@@ -12,14 +16,15 @@ export function Transfer({ transferTokens, tokenSymbol }) {
 
           const formData = new FormData(event.target);
           const to = formData.get("to");
-          const amount = formData.get("amount");
+          const amount = Number(formData.get("amount"));
 
           if (to && amount) {
             transferTokens(to, amount);
           }
+          console.log(typeof amount);
         }}
       >
-        <div className="form-group">
+        <div className="form-group border">
           <label>Amount of {tokenSymbol}</label>
           <input
             className="form-control"
@@ -28,9 +33,10 @@ export function Transfer({ transferTokens, tokenSymbol }) {
             name="amount"
             placeholder="1"
             required
+            onChange={handleChange}
           />
         </div>
-        <div className="form-group">
+        <div className="form-group border">
           <label>Recipient address</label>
           <input className="form-control" type="text" name="to" required />
         </div>

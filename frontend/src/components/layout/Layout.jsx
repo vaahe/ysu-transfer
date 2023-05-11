@@ -1,12 +1,15 @@
 import { useRoutes } from "react-router";
-import { routes } from "../../routes";
+import { getRoutes } from "../../routes";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import classNames from "classnames";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 
-const Layout = ({ children }) => {
+
+const Layout = (props) => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const routes = useMemo(() => getRoutes(props), [])
     const [collapsed, setSidebarCollapsed] = useState(false);
     const [showSidebar, setShowSidebar] = useState(true);
     const element = useRoutes(routes);
@@ -23,13 +26,11 @@ const Layout = ({ children }) => {
                 "transition-[grid-template-columns] duration-300 ease-in-out": true,
             })}
         >
-            {/* sidebar */}
             <Sidebar
                 collapsed={collapsed}
                 setCollapsed={() => setSidebarCollapsed((prev) => !prev)}
                 shown={showSidebar}
             />
-            {/* content */}
             <div className="">
                 <Navbar onMenuClickButton={() => setShowSidebar((prev) => !prev)} />
                 {element}
