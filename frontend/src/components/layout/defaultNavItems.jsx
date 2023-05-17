@@ -1,6 +1,6 @@
 import React from "react";
 import { CiWallet, CiSettings, CiCircleList } from "react-icons/ci"
-import { AiFillHome } from "react-icons/ai"
+import { AiFillHome, AiOutlineMessage } from "react-icons/ai"
 
 export const defaultNavItems = [
     {
@@ -17,6 +17,11 @@ export const defaultNavItems = [
         label: "Transactions",
         href: "/transactions",
         icon: <CiCircleList className="w-6 h-6" />,
+    },
+    {
+        label: "Messages",
+        href: "/messages",
+        icon: <AiOutlineMessage className="w-6 h-6" />
     },
     {
         label: "Settings",

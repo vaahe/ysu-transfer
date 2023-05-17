@@ -1,10 +1,11 @@
-import { useRoutes } from "react-router";
-import { getRoutes } from "../../routes";
-import Navbar from "./Navbar";
-import Sidebar from "./Sidebar";
-import classNames from "classnames";
 import React, { useMemo, useState } from "react";
+import { useRoutes } from "react-router";
+import classNames from "classnames";
 
+import { getRoutes } from "../../routes";
+import { Footer } from "./Footer";
+import Sidebar from "./Sidebar";
+import Navbar from "./Navbar";
 
 
 const Layout = (props) => {
@@ -14,28 +15,30 @@ const Layout = (props) => {
     const [showSidebar, setShowSidebar] = useState(true);
     const element = useRoutes(routes);
 
+    const cs = classNames({
+        "grid min-h-screen": true,
+        "grid-cols-sidebar": !collapsed,
+        "grid-cols-sidebar-collapsed": collapsed,
+        "transition-[grid-template-columns] duration-300 ease-in-out": true,
+    })
+
+
     return (
-        <div
-            className={classNames({
-                // 👇 use grid layout
-                "grid min-h-screen": true,
-                // 👇 toggle the width of the sidebar depending on the state
-                "grid-cols-sidebar": !collapsed,
-                "grid-cols-sidebar-collapsed": collapsed,
-                // 👇 transition animation classes
-                "transition-[grid-template-columns] duration-300 ease-in-out": true,
-            })}
-        >
-            <Sidebar
-                collapsed={collapsed}
-                setCollapsed={() => setSidebarCollapsed((prev) => !prev)}
-                shown={showSidebar}
-            />
-            <div className="">
-                <Navbar onMenuClickButton={() => setShowSidebar((prev) => !prev)} />
-                {element}
+        <>
+            <div className={cs}>
+                <Sidebar collapsed={collapsed} setCollapsed={() => setSidebarCollapsed((prev) => !prev)} shown={showSidebar} />
+
+                <div>
+                    <Navbar onMenuClickButton={() => setShowSidebar((prev) => !prev)} />
+                    <div className="m-2">
+                        {element}
+                    </div>
+                </div>
             </div>
-        </div>
+
+            <Footer />
+        </>
     );
 };
+
 export default Layout;

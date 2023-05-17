@@ -2,7 +2,8 @@ import { Wallet } from "../pages/Wallet";
 import { Settings } from "../pages/Settings";
 import { Transactions } from "../pages/Transactions";
 import { ErrorPage } from "../pages/ErrorPage";
-import { Dashboard } from "../pages/Dashboard";
+import { Dashboard } from "../pages/dashboard/Dashboard";
+import { Messages } from "../pages/Messages";
 
 export const getRoutes = (props) => {
     return [
@@ -12,11 +13,15 @@ export const getRoutes = (props) => {
         },
         {
             path: "/wallet",
-            element: <Wallet />,
+            element: <Wallet state={props.state} />,
         },
         {
             path: "/transactions",
-            element: <Transactions />
+            element: <Transactions state={props.state} />
+        },
+        {
+            path: "/messages",
+            element: <Messages />
         },
         {
             path: "/settings",

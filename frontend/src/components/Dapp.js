@@ -4,14 +4,14 @@ import { ethers } from "ethers";
 import TokenArtifact from "../contracts/Token.json";
 import contractAddress from "../contracts/contract-address.json";
 
-import { NoWalletDetected } from "./NoWalletDetected";
+import { NoWalletDetected } from "./messages/NoWalletDetected";
 import { ConnectWallet } from "./ConnectWallet";
 import { Loading } from "./Loading";
 
 import Layout from "./layout/Layout";
 
 // This is the default id used by the Hardhat Network
-const HARDHAT_NETWORK_ID = '31337';
+const HARDHAT_NETWORK_ID = '11155111';
 
 // This is an error code that indicates that the user canceled a transaction
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
@@ -118,7 +118,6 @@ export class Dapp extends React.Component {
     // Then, we initialize the contract using that provider and the token's
     // artifact. You can do this same thing with your contracts.
 
-    console.log(contractAddress.Token);
     this._token = new ethers.Contract(
       contractAddress.Token,
       TokenArtifact.abi,
@@ -149,6 +148,7 @@ export class Dapp extends React.Component {
   // in the component state.
   async _getTokenData() {
     const name = await this._token.name();
+    console.log("name", name)
     const symbol = await this._token.symbol();
 
     this.setState({ tokenData: { name, symbol } });
@@ -163,7 +163,6 @@ export class Dapp extends React.Component {
   // While this action is specific to this application, it illustrates how to
   // send a transaction.
   async _transferTokens(to, amount) {
-    console.log(to, amount);
     // Sending a transaction is a complex operation:
     //   - The user can reject it
     //   - It can fail before reaching the ethereum network (i.e. if the user
@@ -261,260 +260,3 @@ export class Dapp extends React.Component {
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-// import { useCallback, useEffect, useState } from "react";
-// import React from "react";
-
-// import { ethers } from "ethers";
-
-// import TokenArtifact from "../contracts/Token.json";
-// import contractAddress from "../contracts/contract-address.json";
-
-// import { NoWalletDetected } from "./NoWalletDetected";
-// import { ConnectWallet } from "./ConnectWallet";
-// import { Loading } from "./Loading";
-// import { Transfer } from "./Transfer";
-// import { TransactionErrorMessage } from "./TransactionErrorMessage";
-// import { WaitingForTransactionMessage } from "./WaitingForTransactionMessage";
-// import { NoTokensMessage } from "./NoTokensMessage";
-
-// import Layout from "./layout/Layout";
-
-// const HARDHAT_NETWORK_ID = '31337';
-
-// const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
-
-// const initialState = {
-//   tokenData: undefined,
-//   selectedAddress: undefined,
-//   balance: undefined,
-//   txBeingSent: undefined,
-//   transactionError: undefined,
-//   networkError: undefined,
-// }
-
-// export const Dapp = (props) => {
-//   const [token, setToken] = useState(initialState);
-//   const [_pollDataInterval, setPollDataInterval] = useState();
-//   const [_token, _setToken] = useState();
-
-
-//   const _stopPollingData = useCallback(() => {
-//     clearInterval(_pollDataInterval);
-//     // _pollDataInterval = undefined;
-//     setPollDataInterval(undefined);
-//   }, [])
-
-//   useEffect(() => {
-//     return _stopPollingData();
-//   }, []);
-
-
-
-
-//   if (window.ethereum === undefined) {
-//     return <NoWalletDetected />;
-//   }
-
-//   if (!token.selectedAddress) {
-//     return (
-//       <ConnectWallet
-//         connectWallet={() => _connectWallet()}
-//         networkError={token.networkError}
-//         dismiss={() => _dismissNetworkError()}
-//       />
-//     );
-//   }
-
-//   if (!token.tokenData || !token.balance) {
-//     return <Loading />;
-//   }
-
-//   // function componentWillUnmount() {
-//   //     _stopPollingData();
-//   // }
-
-//   async function _connectWallet() {
-//     const [selectedAddress] = await window.ethereum.request({ method: 'eth_requestAccounts' });
-
-//     _checkNetwork();
-
-//     await _initialize(selectedAddress);
-
-//     window.ethereum.on("accountsChanged", async ([newAddress]) => {
-//       _stopPollingData();
-//       if (newAddress === undefined) {
-//         return _resetState();
-//       }
-
-//       await _initialize(newAddress);
-//     });
-//   }
-
-//   async function _initializeEthers() {
-//     const _provider = new ethers.providers.Web3Provider(window.ethereum);
-//     _setToken(new ethers.Contract(
-//       contractAddress.Token,
-//       TokenArtifact.abi,
-//       _provider.getSigner(0)
-//     ));
-//   }
-
-//   async function _initialize(userAddress) {
-//     setToken({
-//       selectedAddress: userAddress,
-//     });
-
-//     const ethers = await _initializeEthers();
-//     ethers && await _getTokenData();
-//     await _startPollingData();
-//   }
-
-
-//   async function _startPollingData() {
-//     // setPollDataInterval(setInterval(() => _updateBalance(), 1000));
-
-//     await _updateBalance();
-//   }
-
-
-//   async function _getTokenData() {
-//     const name = await _token.name();
-//     const symbol = await _token.symbol();
-
-//     setToken({ tokenData: { name, symbol } });
-//   }
-
-//   async function _updateBalance() {
-//     console.log("mtanq ste")
-//     console.log(_token)
-//     const balance = await _token.balanceOf(token.selectedAddress);
-//     balance && setToken({ balance });
-//   }
-
-//   async function _transferTokens(to, amount) {
-//     try {
-//       _dismissTransactionError();
-
-//       const tx = await _token.transfer(to, amount);
-//       setToken({ txBeingSent: tx.hash });
-
-//       const receipt = await tx.wait();
-
-//       if (receipt.status === 0) {
-//         throw new Error("Transaction failed");
-//       }
-
-//       await _updateBalance();
-//     } catch (error) {
-//       if (error.code === ERROR_CODE_TX_REJECTED_BY_USER) {
-//         return;
-//       }
-
-//       console.error(error);
-//       setToken({ transactionError: error });
-//     } finally {
-//       setToken({ txBeingSent: undefined });
-//     }
-//   }
-
-//   function _dismissTransactionError() {
-//     setToken({ transactionError: undefined });
-//   }
-
-//   function _dismissNetworkError() {
-//     setToken({ networkError: undefined });
-//   }
-
-//   function _getRpcErrorMessage(error) {
-//     if (error.data) {
-//       return error.data.message;
-//     }
-
-//     return error.message;
-//   }
-
-//   function _resetState() {
-//     setToken(initialState);
-//   }
-
-//   async function _switchChain() {
-//     const chainIdHex = `0x${HARDHAT_NETWORK_ID.toString(16)}`
-//     await window.ethereum.request({
-//       method: "wallet_switchEthereumChain",
-//       params: [{ chainId: chainIdHex }],
-//     });
-//     await _initialize(token.selectedAddress);
-//   }
-
-//   function _checkNetwork() {
-//     if (window.ethereum.networkVersion !== HARDHAT_NETWORK_ID) {
-//       _switchChain();
-//     }
-//   }
-
-
-//   return (
-//     <Layout>
-//       <div className="container p-4">
-//         <div className="row">
-//           <div className="col-12">
-//             <h1>
-//               {token.tokenData.name} ({token.tokenData.symbol})
-//             </h1>
-//             <p>
-//               Welcome <b>{token.selectedAddress}</b>, you have{" "}
-//               <b>
-//                 {token.balance.toString()} {token.tokenData.symbol}
-//               </b>
-//               .
-//             </p>
-//           </div>
-//         </div>
-
-//         <hr />
-
-//         <div className="row">
-//           <div className="col-12">
-//             {token.txBeingSent && (
-//               <WaitingForTransactionMessage txHash={token.txBeingSent} />
-//             )}
-//             {token.transactionError && (
-//               <TransactionErrorMessage
-//                 message={_getRpcErrorMessage(token.transactionError)}
-//                 dismiss={() => _dismissTransactionError()}
-//               />
-//             )}
-//           </div>
-//         </div>
-
-//         <div className="row">
-//           <div className="col-12">
-//             {token.balance.eq(0) && (
-//               <NoTokensMessage selectedAddress={token.selectedAddress} />
-//             )}
-//             {token.balance.gt(0) && (
-//               <Transfer
-//                 transferTokens={(to, amount) =>
-//                   _transferTokens(to, amount)
-//                 }
-//                 tokenSymbol={token.tokenData.symbol}
-//               />
-//             )}
-//           </div>
-//         </div>
-//       </div>
-//     </Layout>
-//   );
-// }
