@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IoIosArrowDown } from 'react-icons/io';
 
 import { styles } from '../../styles/Navbar';
@@ -7,9 +7,9 @@ import { styles } from '../../styles/Navbar';
 const Navbar = () => {
     const [isDropped, setIsDropped] = useState(false);
 
-    const handleClick = () => {
-        setIsDropped(prevState => !prevState);
-    }
+    // window.addEventListener("click", () => {
+    //     setIsDropped(false);
+    // });
 
     return (
         <nav className={styles.navbar}>
@@ -21,7 +21,7 @@ const Navbar = () => {
                     <a href="/" className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Services</a>
                 </li>
                 <li className='relative'>
-                    <button onClick={handleClick}
+                    <button onClick={() => setIsDropped(prevState => !prevState)}
                         className="flex items-center justify-between w-full py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
                         <div className="flex gap-4 items-center h-11 overflow-hidden">
                             <img
