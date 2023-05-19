@@ -9,6 +9,7 @@ import { ConnectWallet } from "./ConnectWallet";
 import { Loading } from "./Loading";
 
 import Layout from "./layout/Layout";
+import { Navigate } from "react-router";
 
 // This is the default id used by the Hardhat Network
 const HARDHAT_NETWORK_ID = '11155111';
@@ -82,6 +83,7 @@ export class Dapp extends React.Component {
     this._initialize(selectedAddress);
 
     // We reinitialize it whenever the user changes their account.
+
     window.ethereum.on("accountsChanged", ([newAddress]) => {
       this._stopPollingData();
       // `accountsChanged` event can be triggered with an undefined newAddress.

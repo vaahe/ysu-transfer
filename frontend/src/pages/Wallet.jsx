@@ -1,5 +1,5 @@
 import React from 'react';
-import { WaitingForTransactionMessage } from '../components/messages/WaitingForTransactionMessage';
+import { WaitingForTransactionMessage } from '../components/WaitingForTransactionMessage';
 import { TransactionErrorMessage } from '../components/messages/TransactionErrorMessage';
 
 export const Wallet = (props) => {

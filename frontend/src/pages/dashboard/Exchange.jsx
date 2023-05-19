@@ -5,7 +5,7 @@ import { BsSend, BsCurrencyExchange } from "react-icons/bs";
 import { Transfer } from '../../components/Transfer'
 import { NoTokensMessage } from '../../components/messages/NoTokensMessage';
 import { TransactionErrorMessage } from '../../components/messages/TransactionErrorMessage';
-import { WaitingForTransactionMessage } from '../../components/messages/WaitingForTransactionMessage';
+import { WaitingForTransactionMessage } from '../../components/WaitingForTransactionMessage';
 
 
 export const Exchange = ({ props }) => {
@@ -49,63 +49,65 @@ export const Exchange = ({ props }) => {
                 </button>
             </div>
 
-            <div className="bg-gray-200">
-                <div className="container mx-auto flex justify-center items-center">
-                    {isLayoutOne ? (
-                        <div className="bg-blue-100 p-4">
-                            <div className="row">
-                                <div className="col-12">
-                                    <h1>
-                                        {props.state.tokenData.name} ({props.state.tokenData.symbol})
-                                    </h1>
-                                    <p>
-                                        Welcome <b>{props.state.selectedAddress}</b>, you have{" "}
-                                        <b>
-                                            {props.state.balance.toString()} {props.state.tokenData.symbol}
-                                        </b>
-                                        .
-                                    </p>
-                                </div>
+            <div className="bg-white mx-auto flex justify-center items-center">
+                {isLayoutOne ? (
+                    <div className="bg-white px-1 w-full">
+                        <div className="text-md font-semibold">
+                            <div className='my-2'>
+                                Current Token
+                                <p className='rounded-lg py-1 px-2 font-bold bg-blue-100'>
+                                    {props.state.tokenData.name} ({props.state.tokenData.symbol})
+                                </p>
                             </div>
-
-                            <hr />
-
-                            <div className="row">
-                                <div className="col-12">
-                                    {props.state.txBeingSent && (
-                                        <WaitingForTransactionMessage txHash={props.state.txBeingSent} />
-                                    )}
-                                    {props.state.transactionError && (
-                                        <TransactionErrorMessage
-                                            message={this._getRpcErrorMessage(props.state.transactionError)}
-                                            dismiss={() => this._dismissTransactionError()}
-                                        />
-                                    )}
-                                </div>
+                            <div className='mb-2'>
+                                Wallet address
+                                <p className='rounded-lg py-1 px-2 font-bold bg-blue-100'>
+                                    {props.state.selectedAddress}
+                                </p>
                             </div>
-
-                            <div className="row">
-                                <div className="col-12">
-                                    {props.state.balance.eq(0) && (
-                                        <NoTokensMessage selectedAddress={props.state.selectedAddress} />
-                                    )}
-                                    {props.state.balance.gt(0) && (
-                                        <Transfer
-                                            transferTokens={(to, amount) =>
-                                                props.transferTokens(to, amount)
-                                            }
-                                            tokenSymbol={props.state.tokenData.symbol}
-                                        />
-                                    )}
-                                </div>
+                            <div className='mb-4'>
+                                Wallet balance
+                                <p className='rounded-lg py-1 px-2 font-bold bg-blue-100'>
+                                    {props.state.balance.toString()} {props.state.tokenData.symbol}
+                                </p>
                             </div>
                         </div>
-                    ) : (
-                        <div className="bg-green-100 p-4">
-                            <p>Receive</p>
+
+                        <div className="row">
+                            <div className="col-12">
+                                {props.state.txBeingSent && (
+                                    <WaitingForTransactionMessage txHash={props.state.txBeingSent} />
+                                )}
+                                {props.state.transactionError && (
+                                    <TransactionErrorMessage
+                                        message={this._getRpcErrorMessage(props.state.transactionError)}
+                                        dismiss={() => this._dismissTransactionError()}
+                                    />
+                                )}
+                            </div>
                         </div>
-                    )}
-                </div>
+
+                        <div className="row">
+                            <div className="col-12">
+                                {props.state.balance.eq(0) && (
+                                    <NoTokensMessage selectedAddress={props.state.selectedAddress} />
+                                )}
+                                {props.state.balance.gt(0) && (
+                                    <Transfer
+                                        transferTokens={(to, amount) =>
+                                            props.transferTokens(to, amount)
+                                        }
+                                        tokenSymbol={props.state.tokenData.symbol}
+                                    />
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="bg-green-100 p-4">
+                        <p>Receive</p>
+                    </div>
+                )}
             </div>
         </div >
     )

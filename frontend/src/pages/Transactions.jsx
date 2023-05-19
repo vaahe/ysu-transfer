@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { ETHERSCAN_API_KEY } from '../config';
+import React from 'react';
 
 export const Transactions = (props) => {
     // console.log(props.state.selectedAddress)

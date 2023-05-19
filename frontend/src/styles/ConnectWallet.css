@@ -1,0 +1,25 @@
+.container {
+    background-image: url("../../public/Prisma_believe.jpg");
+    background-repeat: no-repeat;
+    background-size: 75% 100%;
+    background-position: left;
+    background-attachment: fixed;
+}
+
+/* 
+@media only screen and (min-width: 360px) and (max-width: 768px) {
+    .container {
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        border: 1px solid red;
+        min-width: 100%;
+    }
+
+    .connect-wallet {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+} */

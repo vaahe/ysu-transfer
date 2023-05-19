@@ -37,7 +37,7 @@ const Sidebar = ({ collapsed, setCollapsed, navItems = defaultNavItems, shown })
                 {/* logo and collapse button */}
                 <div
                     className={cn({
-                        "flex items-center bg-white py-4 px-2 h-[76px] w-full": true,
+                        "flex items-center bg-white py-4 px-1 h-[76px] w-full": true,
                         "justify-between": !collapsed,
                         "justify-center bg-red-500": collapsed,
                     })}
@@ -47,7 +47,7 @@ const Sidebar = ({ collapsed, setCollapsed, navItems = defaultNavItems, shown })
                         <Icon className="w-6 h-6" />
                     </button>
                 </div>
-                <nav className="flex flex-col flex-grow justify-between shadow-md">
+                <nav className="flex flex-col flex-grow justify-between shadow-md px-2">
                     <ul className={styles.list}>
                         {navItems.map((item, index) => {
                             return (
@@ -55,9 +55,9 @@ const Sidebar = ({ collapsed, setCollapsed, navItems = defaultNavItems, shown })
                                     <Link to={item.href}
                                         className={cn({
                                             "text-[#043669] hover:bg-[#043669] hover:text-white flex": true, //colors
-                                            "transition-colors duration-300": true, //animation
-                                            "rounded-md gap-4 px-1 py-2 mx-4": !collapsed,
-                                            "rounded-full flex items-center px-3 justify-center w-12 h-12": collapsed,
+                                            "transition-colors px-2 duration-300": true, //animation
+                                            "rounded-md gap-4 py-2 my-1": !collapsed,
+                                            "rounded-full flex items-center mx-4 justify-center w-12 h-12": collapsed,
                                             "flex active:bg-[#043669] mx-auto focus:ring focus:bg-[#043669] focus:text-white": true
                                         })}
                                     >
@@ -68,7 +68,10 @@ const Sidebar = ({ collapsed, setCollapsed, navItems = defaultNavItems, shown })
                             );
                         })}
                     </ul>
-                    <div className={styles.theme.container}>
+                    <div className={cn({
+                        "flex gap-4 items-center h-10 mx-2 my-6 overflow-hidden text-[#043669] hover:text-[#017669] cursor-pointer": !collapsed,
+                        "flex gap-4 justify-center  items-center h-10 mx-2 my-6 overflow-hidden text-[#043669] hover:text-[#017669] cursor-pointer": collapsed
+                    })}>
                         <Theme className="h-6 w-6" />
                         {!collapsed && (
                             <span>Switch to Dark Mode</span>
